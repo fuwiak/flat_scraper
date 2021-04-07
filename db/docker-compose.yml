@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  postgresdb:
+    build:
+      context: config
+      dockerfile: config/Dockerfile
+    ports:
+      - 5432:5432
+    container_name: flats_database
+    networks:
+      - flats-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgresdb
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: l@l
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - flats-network
+    container_name: flats_pgadmin
+
+networks:
+  flats-network:
