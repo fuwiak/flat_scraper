@@ -1,4 +1,5 @@
-.venv/
+venv/
 .idea/
 src/scraper/config.yaml
 __pychache__
+
