@@ -5,7 +5,6 @@ Base = declarative_base()
 
 
 class FlatsBuy(db.Model):
-
     __tablename__ = 'flats_buy'
 
     ad_id = db.Column(db.Integer, primary_key=True)
@@ -24,7 +23,6 @@ class FlatsBuy(db.Model):
 
 
 class PricesBuy(db.Model):
-
     __tablename__ = 'prices_buy'
 
     price_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -36,7 +34,6 @@ class PricesBuy(db.Model):
 
 
 class FlatsRent(db.Model):
-
     __tablename__ = 'flats_rent'
 
     ad_id = db.Column(db.Integer, primary_key=True)
@@ -57,7 +54,6 @@ class FlatsRent(db.Model):
 
 
 class PricesRent(db.Model):
-
     __tablename__ = 'prices_rent'
 
     price_id = db.Column(db.Integer, primary_key=True, autoincrement=True)

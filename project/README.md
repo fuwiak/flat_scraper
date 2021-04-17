@@ -8,24 +8,33 @@ checks for their price changes. Even though a threshold for
 "ridiculously small" area of a flat is not agreed on, I am going to say it's
 less than 30m<sup>2</sup>.
 
-
-
 ### What I am looking for
 
 I will check prices for **buying** and **renting** such flats.
 
 - price of the apartment
-- location (district)
+- location (city and district)
 - the size of the apartment (in m<sup>2</sup>)
 - number of rooms
 - number of bathrooms
 - does it have a garage
-- type of the property (flat / house)
 - description
+
+The rent offers include usually also the following info:
+- can people smoke in the apartment
+- can people keep pets at teh apartment
+
+I am scraping data for studios and 2-room flats in Poland (both for sale and 
+to rent). I am not putting any area constraints yet
 
 ### Aim of the project
 1. Learn web scraping
 2. Do something productive during the pandemic
 3. Expose the scale of the problem in Poland. Maybe. (Too ambitious? We'll see)
 
-docker-compose -f docker-compose.yml up  
+
+### Running the project
+```
+docker-compose -f db/docker-compose.yml up 
+```
+ 

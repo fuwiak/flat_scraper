@@ -1,8 +1,6 @@
 import requests
 import re
-import psycopg2
 from bs4 import BeautifulSoup
-
 from utils import today_str
 
 
@@ -21,16 +19,21 @@ def get_description(soup) -> str:
     try:
         results = soup.find(id="wrapper")
         description = results.find('span', class_='pre')
-        description = description.text.replace('\"', '\'').replace('\\', '')
+        description = description.text \
+                        .replace('\"', '') \
+                        .replace('\\', '') \
+                        .replace('\'', ' ')
         return description
     except AttributeError or ValueError:
-        return 'NA'
+        return "NA"
 
 
 def get_add_title(soup) -> str:
     '''Extracts title of the ad'''
     results = soup.find('div', class_="vip-title clearfix")
-    title = results.find('span', class_='myAdTitle').text.replace('\'', '')
+    title = results.find('span', class_='myAdTitle').text\
+                .replace('\'', ' ') \
+                .replace('\"', ' ')
     return title
 
 
@@ -77,13 +80,15 @@ keys_dict = {
     'Data dodania': 'date_posted',
     'Lokalizacja': 'location',
     'Na sprzedaż przez': 'seller',
+    'Do wynajęcia przez': 'seller',
     'Rodzaj nieruchomości': 'property_type',
     'Liczba pokoi': 'num_rooms',
     'Liczba łazienek': 'num_bathrooms',
     'Wielkość (m2)': 'flat_area',
     'Parking': 'parking',
     'Palący': 'smoking',
-    'Przyjazne zwierzakom': 'animals'}
+    'Przyjazne zwierzakom': 'animals'
+}
 
 
 def get_flat_info(page_address) -> dict:
@@ -96,23 +101,24 @@ def get_flat_info(page_address) -> dict:
     today = today_str()
     description = get_description(soup)
 
-    flat = {'ad_id': ad_id,
-            'title': title,
-            'date_posted': 'NA',
-            'date_scraped': today,
-            'location': 'NA',
-            'price': price,
-            'seller': 'NA',
-            'property_type': 'NA',
-            'num_rooms': 0,
-            'num_bathrooms': 1,
-            'flat_area': 0,
-            'parking': 'Brak',
-            'description': description,
-            'page_address': page_address,
-            'smoking': 'NA',
-            'animals': 'NA'
-            }
+    flat = {
+        'ad_id': ad_id,
+        'title': title,
+        'date_posted': 'NA',
+        'date_scraped': today,
+        'location': 'NA',
+        'price': price,
+        'seller': 'NA',
+        'property_type': 'NA',
+        'num_rooms': 0,
+        'num_bathrooms': 1,
+        'flat_area': 0,
+        'parking': 'Brak',
+        'description': description,
+        'page_address': page_address,
+        'smoking': 'NA',
+        'animals': 'NA'
+    }
 
     attributes = get_attributes(soup)
 
@@ -165,21 +171,3 @@ def add_flat(page_address, cursor, conn):
 
     cursor.execute(input_price)
     conn.commit()
-
-
-if __name__ == "__main__":
-    try:
-        conn = psycopg2.connect('postgresql://postgres:mab@localhost:5432/flats_database')
-        cursor = conn.cursor()
-    except psycopg2.Error as e:
-        raise Exception
-
-    # ad_link = 'https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/2-pokoje-mieszkanie-krakow-osiedle-na-lotnisku-16-wysokie-broniewskiego-bienczyce-bez-prowizji/1009105174600911318987609'
-    ad_link = 'https://www.gumtree.pl/a-mieszkania-i-domy-sprzedam-i-kupie/krakow/mieszkanie-krakow-stare-miasto-75m2-nr-spek+ms+1353+1/1009184789870912121700109'
-
-    flat_example = get_flat_info(ad_link)
-    print(flat_example)
-
-    add_flat(ad_link, cursor, conn)
-
-

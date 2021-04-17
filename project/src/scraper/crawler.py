@@ -11,24 +11,23 @@ from utils import get_ad_price, get_page_address, info_scraped_today, \
 
 logging.getLogger('scrapy').setLevel(logging.WARNING)
 
-with open(r'config.yaml') as f:
+with open(r'project/src/scraper/config.yaml') as f:
     params = yaml.load(f, Loader=yaml.FullLoader)
 
 
 class FlatSpider(scrapy.Spider):
     name = "flat_spider"
-
     start_urls = params["start_urls"]
 
     def parse(self, response):
-        i = 1
         try:
-            conn = psycopg2.connect(
-                'postgresql://postgres:mab@localhost:5432/flats_database')
+            postgres_setup = params["postgres_setup"]
+            conn = psycopg2.connect(postgres_setup)
             cursor = conn.cursor()
         except psycopg2.Error:
             raise Exception
 
+        i = 1
         for flat_ad in response.css('div.tileV1'):
             print("\n" + "-"*100 + " " + str(i))
             i += 1
