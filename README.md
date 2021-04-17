@@ -25,7 +25,7 @@ The rent offers include usually also the following info:
 - can people keep pets at teh apartment
 
 I am scraping data for studios and 2-room flats in Poland (both for sale and 
-to rent). I am not putting any area constraints yet
+to rent). I am not putting any size constraints yet
 
 ### Aim of the project
 1. Learn web scraping
