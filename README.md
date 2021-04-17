@@ -6,7 +6,7 @@ price e.g. 16m<sup>2</sup> "flat"_)
 A scraper written in Python that collects flats advertisements and regularly 
 checks for their price changes. Even though a threshold for 
 "ridiculously small" area of a flat is not agreed on, I am going to say it's
-less than 30m<sup>2</sup>.
+less than 27m<sup>2</sup>.
 
 ### What I am looking for
 
