@@ -11,8 +11,6 @@ def load_data():
 df_flats = load_data()
 
 df_flats['month'] = df_flats['date'].apply(lambda x: x.split('-')[1])
-df_flats["price_per_m"] = df_flats['price'] / df_flats['flat_area']
-df_flats["price_per_m"] = df_flats["price_per_m"].apply(lambda x: round(x, 1))
 df_flats = df_flats[df_flats['flat_area'] > 0]
 
 st.title("Small flats for rent in Poland")
@@ -50,9 +48,12 @@ st.subheader("Historia zmian cen mieszkań")
 area_cat_list = list(set(df_flats['area_category']))
 area = st.selectbox('How big should the flat be', area_cat_list)
 
+pd.options.display.float_format = '{:,.2f}'.format
+pd.set_option('precision', 2)
+
 if district != 'all':
     grouped_df = df_flats[df_flats['area_category'] == area]
 
     grouped_df = grouped_df[['location', 'month', 'price_per_m']]
-    grouped_df = grouped_df.groupby(['location', 'month'])['price_per_m'].mean()
+    grouped_df = grouped_df.groupby(['location', 'month'])['price_per_m'].mean().astype(int)
     st.table(grouped_df)
