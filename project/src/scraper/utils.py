@@ -10,24 +10,44 @@ def info_scraped_today(cursor):
     """Print how many ads were scraped today
     and how many there are in the whole database"""
     today = today_str()
-    cursor.execute(f"SELECT count(*) FROM flats WHERE date_scraped = '{today}'")
-    ads_today = cursor.fetchone()[0]
 
-    cursor.execute(f"SELECT count(*) FROM flats")
-    all_ads = cursor.fetchone()[0]
+    def query_flats_stats(table):
+        cursor.execute(f"SELECT count(*) "
+                       f"FROM {table} "
+                       f"WHERE date_scraped = '{today}'")
+        return cursor.fetchone()[0]
 
-    cursor.execute(f"SELECT count(flat_id) FROM prices "
-                   f"WHERE flat_id in (SELECT flat_id "
-                                       f"FROM prices "
-                                       f"GROUP BY flat_id "
-                                       f"HAVING count(flat_id) => 2) "
-                   f"and date = '{today}' ")
-    price_changes = cursor.fetchone()[0]
+    def query_price_changes(table):
+        cursor.execute(f"SELECT count(flat_id) FROM {table} "
+                       f"WHERE flat_id in ("
+                            f"SELECT flat_id "
+                            f"FROM {table} "
+                            f"GROUP BY flat_id "
+                            f"HAVING count(flat_id) >= 2) "
+                       f"and date = '{today}' ")
+        return cursor.fetchone()[0]
+
+    def get_all_ads(table):
+        cursor.execute(f"SELECT count(*) FROM {table}")
+        return cursor.fetchone()[0]
+
+    ads_today_buy = query_flats_stats('flats_buy')
+    ads_today_rent = query_flats_stats('flats_rent')
+
+    price_changes_buy = query_price_changes('prices_buy')
+    price_changes_rent = query_price_changes('prices_rent')
+
+    all_ads_buy = get_all_ads('prices_buy')
+    all_ads_rent = get_all_ads('prices_rent')
 
     print("_"*100)
-    return(f"\n\tNew ads today: {ads_today:,}\n"
-           f"\tOverall: {all_ads:,}\n"
-           f"\tPrice changes today: {price_changes}\n")
+    return(f"\n\tNew ads today (buy): {ads_today_buy:,}\n"
+           f"\tPrice changes today (buy): {price_changes_buy}\n"
+           f"\tOverall (buy): {all_ads_buy:,}\n"
+           "\n"
+           f"\n\tNew ads today (rent): {ads_today_rent:,}\n"
+           f"\tPrice changes today (rent): {price_changes_rent}\n"
+           f"\tOverall (rent): {all_ads_rent:,}\n")
 
 
 def get_ad_price(flat):
