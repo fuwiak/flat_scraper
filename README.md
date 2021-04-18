@@ -37,4 +37,9 @@ to rent). I am not putting any size constraints yet
 ```
 docker-compose -f db/docker-compose.yml up 
 ```
- 
+
+
+TODO: 
+1. add data from the big scraper
+2. set up a scraper for the smallest flats
+3. automate uploads

@@ -53,3 +53,4 @@ class FlatSpider(scrapy.Spider):
         except KeyError:
             print(info_scraped_today(cursor))
             print("Reached 50th page.")
+

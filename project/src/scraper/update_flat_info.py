@@ -40,3 +40,4 @@ def update_price(cursor, ad_id, ad_price, conn, table_p):
                    f"\'{today}\' "
                    ")")
     conn.commit()
+
