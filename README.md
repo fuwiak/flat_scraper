@@ -3,6 +3,18 @@
 (_pl. patodeweloperka - pathologically small apartments sold for an exorbitant 
 price e.g. 16m<sup>2</sup> "flat"_)  
 
+# Installation
+```bash
+
+brew install Patodeweloperka
+```
+
+
+
+
+
+
+
 A scraper written in Python that collects flats advertisements and regularly 
 checks for their price changes. Even though a threshold for 
 "ridiculously small" area of a flat is not agreed on, I am going to say it's
