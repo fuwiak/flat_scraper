@@ -1,6 +1,11 @@
 from utils import today_str
 
 
+
+query_dict={f'SELECT ad_id FROM {table_f} WHERE ad_id = {ad_id}',
+            )
+
+
 def check_if_row_exists(cursor, ad_id, table_f):
     cursor.execute(f'SELECT ad_id FROM {table_f} WHERE ad_id = {ad_id}')
     try:
