@@ -2,6 +2,16 @@ from collections import Counter
 import pandas as pd
 import streamlit as st
 
+"""
+
+1)@st.cache do czego to sluzy?
+2) dlaczego nie ma kodu w funkcjach
+3) Trzymajmy sie jakies conwencji :https://github.com/fuwiak/faster_ds/tree/master/info_for_dev
+4) type hinting https://realpython.com/lessons/type-hinting/
+5) conwecja komitow
+
+"""
+
 
 @st.cache
 def load_data():
