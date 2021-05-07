@@ -12,10 +12,11 @@ import streamlit as st
 
 """
 
+path = 'project/src/analysis/data/flats_rent.csv'
 
 @st.cache
-def load_data():
-    return pd.read_csv('project/src/analysis/data/flats_rent.csv')
+def load_data(path=None):
+    return pd.read_csv(path)
 
 
 df_flats = load_data()
